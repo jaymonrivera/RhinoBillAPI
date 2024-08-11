@@ -1,0 +1,6 @@
+@RhinoBill.CRUD_HostAddress = http://localhost:5212
+
+GET {{RhinoBill.CRUD_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
