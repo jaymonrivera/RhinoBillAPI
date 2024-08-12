@@ -21,6 +21,6 @@ public class CreateHandler<TEntity, TDto> : IRequestHandler<CreateCommand<TEntit
         var entity = _mapper.Map<TEntity>(request.Dto);
         _context.Set<TEntity>().Add(entity);
         await _context.SaveChangesAsync(cancellationToken);
-        return (int)typeof(TEntity).GetProperty("Id").GetValue(entity);
+        return (int)typeof(TEntity).GetProperty("Id")!.GetValue(entity)!;
     }
 }

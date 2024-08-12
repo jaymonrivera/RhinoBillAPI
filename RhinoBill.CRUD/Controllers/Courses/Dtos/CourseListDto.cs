@@ -1,10 +1,9 @@
-﻿namespace RhinoBill.CRUD.Models;
+﻿namespace RhinoBill.CRUD.Controllers.Courses.Dtos;
 
-public record Course
+public record CourseListDto
 {
     public int Id { get; init; }
     public string Code { get; init; } = string.Empty;
     public string Title { get; init; } = string.Empty;
     public int Credits { get; init; }
-    public ICollection<Application>? Applications { get; set; }
 }

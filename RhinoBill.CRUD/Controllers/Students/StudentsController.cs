@@ -1,9 +1,7 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using RhinoBill.CRUD.Common.Command;
+﻿using Microsoft.AspNetCore.Mvc;
 using RhinoBill.CRUD.Controllers.Students.Dtos;
-using RhinoBill.CRUD.MediatRCommon.Commands;
 using RhinoBill.CRUD.Models;
+using RhinoBill.CRUD.Services.Interfaces;
 
 namespace RhinoBill.CRUD.Controllers.Students;
 
@@ -11,55 +9,45 @@ namespace RhinoBill.CRUD.Controllers.Students;
 [Route("api/[controller]")]
 public class StudentsController : ControllerBase
 {
-    private readonly IMediator _mediator;
+    private readonly IStudentService _studentService;
 
-    public StudentsController(IMediator mediator)
+    public StudentsController(IStudentService studentService)
     {
-        _mediator = mediator;
+        _studentService = studentService;
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<Student>>> GetStudents()
+    public async Task<ActionResult<List<StudentListDto>>> GetStudents()
     {
-        var query = new GetAllCommand<Student, StudentDto>();
-        var students = await _mediator.Send(query);
-
+        var students = await _studentService.GetStudentsAsync();
         return Ok(students);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<List<Student>>> GetStudents(int id)
+    public async Task<ActionResult<StudentFormDto>> GetStudent(int id)
     {
-        var query = new GetByIdCommand<Student, StudentDto>(id);
-        var students = await _mediator.Send(query);
-
-        return Ok(students);
+        var student = await _studentService.GetStudentByIdAsync(id);
+        return Ok(student);
     }
 
     [HttpPost]   
-    public async Task<ActionResult<int>> CreateStudent(StudentDto newStudentDto)
+    public async Task<ActionResult<int>> CreateStudent(StudentFormDto newStudentDto)
     {
-        var createStudentCommand = new CreateCommand<Student, StudentDto>(newStudentDto);
-        var id = await _mediator.Send(createStudentCommand);
-
+        var id = await _studentService.CreateStudentAsync(newStudentDto);
         return Ok(id);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<ActionResult<int>> DeleteStudent(int id)
     {
-        var deleteStudentCommand = new DeleteCommand<Student>(id);
-        await _mediator.Send(deleteStudentCommand);
-
+        await _studentService.DeleteStudentAsync(id);
         return Ok("Deleted");
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<int>> UpdateStudent(int id, StudentDto studentDto)
+    public async Task<ActionResult<int>> UpdateStudent(int id, StudentFormDto studentDto)
     {
-        var updateStudentCommand = new UpdateCommand<Student, StudentDto>(id, studentDto);
-        var student = await _mediator.Send(updateStudentCommand);
-
-        return Ok(student);
+        var studentId = await _studentService.UpdateStudentAsync(id, studentDto);
+        return Ok(studentId);
     }
 }

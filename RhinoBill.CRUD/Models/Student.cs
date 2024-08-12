@@ -8,4 +8,6 @@ public record Student
     public DateTime DateOfBirth { get; init; } = DateTime.MinValue;
     public string? Email { get; init; }
     public string? PhoneNumber { get; init; }
+
+    public ICollection<Application>? Applications { get; set; }
 }

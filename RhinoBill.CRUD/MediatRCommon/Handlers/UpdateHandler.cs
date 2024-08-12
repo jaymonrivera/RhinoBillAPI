@@ -4,7 +4,7 @@ using RhinoBill.CRUD.Common.Command;
 
 namespace RhinoBill.CRUD.MediatRCommon.Handlers;
 
-public class UpdateHandler<TEntity, TDto> : IRequestHandler<UpdateCommand<TEntity, TDto>, TEntity>
+public class UpdateHandler<TEntity, TDto> : IRequestHandler<UpdateCommand<TEntity, TDto>, int>
     where TEntity : class
 {
     private readonly RhinoBillDbContext _context;
@@ -16,18 +16,18 @@ public class UpdateHandler<TEntity, TDto> : IRequestHandler<UpdateCommand<TEntit
         _mapper = mapper;
     }
 
-    public async Task<TEntity> Handle(UpdateCommand<TEntity, TDto> request, CancellationToken cancellationToken)
+    public async Task<int> Handle(UpdateCommand<TEntity, TDto> request, CancellationToken cancellationToken)
     {
         var entity = await _context.Set<TEntity>().FindAsync(request.Id);
         if (entity == null)
         {
-            throw new ArgumentException($"{nameof(TEntity)}with Id: {request.Id} cannot be found");
+            throw new Exception($"{typeof(TEntity).Name} with Id: {request.Id} cannot be found");
         }
 
         _mapper.Map(request.Dto, entity);
         await _context.SaveChangesAsync(cancellationToken);
 
-        return entity;
+        return request.Id;
     }
 
 

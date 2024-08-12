@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
+using RhinoBill.CRUD.Services.Interfaces;
+using RhinoBill.CRUD.Services;
 
 namespace RhinoBill.CRUD.Extns;
 
@@ -22,6 +24,17 @@ public static class IServiceExtns
 
         // Add AutoMapper
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+        services.AddMediatorServices();
+
+        return services;
+    }
+
+    public static IServiceCollection AddMediatorServices(this IServiceCollection services)
+    {
+        services.AddScoped<IStudentService, StudentService>();
+        services.AddScoped<IApplicationService, ApplicationService>();
+        services.AddScoped<ICourseService, CourseService>();
 
         return services;
     }

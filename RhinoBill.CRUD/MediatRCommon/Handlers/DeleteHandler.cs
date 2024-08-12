@@ -18,7 +18,7 @@ public class DeleteHandler<TEntity> : IRequestHandler<DeleteCommand<TEntity>>
         var entity = await _context.Set<TEntity>().FindAsync(request.Id);
         if (entity == null)
         {
-            throw new ArgumentException($"{nameof(TEntity)}with Id: {request.Id} cannot be found");
+            throw new Exception($"{typeof(TEntity).Name} with Id: {request.Id} cannot be found");
         }
 
         _context.Set<TEntity>().Remove(entity);

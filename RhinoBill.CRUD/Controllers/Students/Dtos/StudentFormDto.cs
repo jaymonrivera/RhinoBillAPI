@@ -2,7 +2,7 @@
 
 namespace RhinoBill.CRUD.Controllers.Students.Dtos;
 
-public record StudentDto
+public record StudentFormDto
 {
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
@@ -11,9 +11,9 @@ public record StudentDto
     public string? PhoneNumber { get; set; }
 }
 
-public class CreateStudentCommandValidator : AbstractValidator<StudentDto>
+public class StudentFormValidator : AbstractValidator<StudentFormDto>
 {
-    public CreateStudentCommandValidator()
+    public StudentFormValidator()
     {
         RuleFor(x => x.FirstName).NotEmpty().Length(2, 30).Matches(@"^[a-zA-Z\s]+$");
         RuleFor(x => x.LastName).NotEmpty().Length(2, 30).Matches(@"^[a-zA-Z\s]+$");
