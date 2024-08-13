@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RhinoBill.CRUD.Controllers.Students.Dtos;
-using RhinoBill.CRUD.Models;
 using RhinoBill.CRUD.Services.Interfaces;
 
 namespace RhinoBill.CRUD.Controllers.Students;
