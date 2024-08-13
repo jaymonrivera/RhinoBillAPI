@@ -6,4 +6,5 @@ public record CourseListDto
     public string Code { get; init; } = string.Empty;
     public string Title { get; init; } = string.Empty;
     public int Credits { get; init; }
+    public string CodeAndTitle { get; set; }
 }

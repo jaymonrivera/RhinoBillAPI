@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using RhinoBill.CRUD.MediatRCommon.Commands;
@@ -19,7 +20,10 @@ public class GetAllHandler<TEntity, TDto> : IRequestHandler<GetAllCommand<TEntit
 
     public async Task<IEnumerable<TDto>> Handle(GetAllCommand<TEntity, TDto> request, CancellationToken cancellationToken)
     {
-        var entities = await _context.Set<TEntity>().ToListAsync(cancellationToken);
-        return _mapper.Map<IEnumerable<TDto>>(entities);
+        var dtos = await _context.Set<TEntity>()
+            .ProjectTo<TDto>(_mapper.ConfigurationProvider) 
+            .ToListAsync(cancellationToken);
+
+        return dtos;
     }
 }

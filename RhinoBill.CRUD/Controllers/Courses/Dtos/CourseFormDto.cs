@@ -4,6 +4,7 @@ namespace RhinoBill.CRUD.Controllers.Courses.Dtos;
 
 public record CourseFormDto
 {
+    public int Id { get; set; }
     public string Code { get; init; } = string.Empty;
     public string Title { get; init; } = string.Empty;
     public int Credits { get; init; }

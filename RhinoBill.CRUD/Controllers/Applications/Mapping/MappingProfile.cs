@@ -11,7 +11,11 @@ public class MappingProfile : Profile
         CreateMap<Application, ApplicationFormDto>();
         CreateMap<ApplicationFormDto, Application>();
 
-        CreateMap<Application, ApplicationListDto>();
+        CreateMap<Application, ApplicationListDto>()
+            .ForMember(l => l.StudentName,
+                s => s.MapFrom(a => a.Student.FullName))
+            .ForMember(l => l.Course,
+                s => s.MapFrom(a => a.Course.CodeAndTitle));
 
     }
 }
